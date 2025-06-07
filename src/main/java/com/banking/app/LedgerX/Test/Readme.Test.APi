@@ -1,0 +1,148 @@
+📄 LedgerX API Documentation
+Base URL: http://localhost:8080/api/accounts
+
+📌 1. Create Account
+Method: POST
+
+URL: /api/accounts
+
+Request Body:
+
+json
+{
+  "accountHolderName": "John Doe",
+  "accountNumber": 123456,
+  "balance": 1000.0
+}
+Response: 200 OK
+
+json
+{
+  "id": 1,
+  "accountHolderName": "John Doe",
+  "accountNumber": 123456,
+  "balance": 1000.0
+}
+/////////////////////////////////////////////////////////////////////////////////////
+📌 2. Get All Accounts
+Method: GET
+
+URL: /api/accounts
+
+Response: 200 OK
+
+json
+
+[
+  {
+    "id": 1,
+    "accountHolderName": "John Doe",
+    "accountNumber": 123456,
+    "balance": 1000.0
+  },
+  ...
+]
+////////////////////////////////////////////////////////////////////////////////////////////////
+📌 3. Get Account by ID
+Method: GET
+
+URL: /api/accounts/{id}
+
+Example: /api/accounts/1
+
+Response:
+
+json
+{
+  "id": 1,
+  "accountHolderName": "John Doe",
+  "accountNumber": 123456,
+  "balance": 1000.0
+}
+Error: 404 Not Found if ID doesn’t exist.
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+📌 4. Get Account by Account Number
+Method: GET
+
+URL: /api/accounts/by-account-number/{accountNumber}
+
+Example: /api/accounts/by-account-number/123456
+
+Response:
+
+json
+{
+  "id": 1,
+  "accountHolderName": "John Doe",
+  "accountNumber": 123456,
+  "balance": 1000.0
+}
+Error: 404 Not Found if not found.
+
+📌 5. Deposit to Account
+Method: POST
+
+URL: /api/accounts/deposit/{accountNumber}?amount=500
+
+Example: /api/accounts/deposit/123456?amount=500
+
+Response:
+
+json
+{
+  "id": 1,
+  "accountHolderName": "John Doe",
+  "accountNumber": 123456,
+  "balance": 1500.0
+}
+Error: 400 Bad Request if amount is negative.
+
+📌 6. Withdraw from Account
+Method: POST
+
+URL: /api/accounts/withdraw/{accountNumber}?amount=200
+
+Example: /api/accounts/withdraw/123456?amount=200
+
+Response:
+
+json
+Copy
+Edit
+{
+  "id": 1,
+  "accountHolderName": "John Doe",
+  "accountNumber": 123456,
+  "balance": 1300.0
+}
+Error: 400 Bad Request if amount is invalid or balance is insufficient.
+
+📌 7. Get Account Balance
+Method: GET
+
+URL: /api/accounts/balance/{accountNumber}
+
+Example: /api/accounts/balance/123456
+
+Response:
+
+json
+Copy
+Edit
+1500.0
+Error: 404 Not Found if account not found.
+
+✅ Notes:
+accountNumber must be unique (as per your DB schema).
+
+Error handling is currently basic (no custom error structure).
+
+All methods are plain JSON and assume correct headers:
+
+pgsql
+Copy
+Edit
+Content-Type: application/json
+Accept: application/json
